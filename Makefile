@@ -712,6 +712,19 @@ partialclean::
 	  (cd otherlibs/$$i; $(MAKE) partialclean); \
 	done
 
+otherlibraries-clean:
+	for i in $(OTHERLIBRARIES); do (cd otherlibs/$$i; $(MAKE) clean); done
+
+otherlibraries-install:
+	for i in $(OTHERLIBRARIES); do \
+	  (cd otherlibs/$$i; $(MAKE) install) || exit $$?; \
+	done
+
+otherlibraries-installopt:
+	for i in $(OTHERLIBRARIES); do \
+	  (cd otherlibs/$$i; $(MAKE) installopt) || exit $$?; \
+	done
+
 clean::
 	for i in $(OTHERLIBRARIES); do (cd otherlibs/$$i; $(MAKE) clean); done
 
