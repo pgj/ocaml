@@ -395,7 +395,7 @@ let emit_instr fallthrough i =
         end
     | Lop(Iconst_symbol s) ->
         add_used_symbol s;
-        if !pic_code then
+        if !Clflags.pic_code then
           `	lea	{emit_reg i.res.(0)}, {emit_symbol s}\n`
         else
           `	mov	{emit_reg i.res.(0)}, OFFSET {emit_symbol s}\n`
@@ -560,7 +560,7 @@ let emit_instr fallthrough i =
     | Lop(Ispecific(Istore_int(n, addr))) ->
         `	mov	QWORD PTR {emit_addressing addr i.arg 0}, {emit_nativeint n}\n`
     | Lop(Ispecific(Istore_symbol(s, addr))) ->
-        assert (not !pic_code);
+        assert (not !Clflags.pic_code);
 	add_used_symbol s;
         `	mov	QWORD PTR {emit_addressing addr i.arg 0}, OFFSET {emit_symbol s}\n`
     | Lop(Ispecific(Ioffset_loc(n, addr))) ->

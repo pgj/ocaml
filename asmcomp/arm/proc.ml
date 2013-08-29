@@ -199,7 +199,7 @@ let destroyed_at_oper = function
       destroyed_at_c_call
   | Iop(Ialloc _) ->
       destroyed_at_alloc
-  | Iop(Iconst_symbol _) when !pic_code ->
+  | Iop(Iconst_symbol _) when !Clflags.pic_code ->
       [| phys_reg 3; phys_reg 8 |]  (* r3 and r12 destroyed *)
   | Iop(Iintoffloat | Ifloatofint | Iload(Single, _) | Istore(Single, _)) ->
       [| phys_reg 107 |]            (* d7 (s14-s15) destroyed *)
@@ -212,13 +212,13 @@ let destroyed_at_raise = all_phys_regs
 let safe_register_pressure = function
     Iextcall(_, _) -> if abi = EABI then 0 else 4
   | Ialloc _ -> if abi = EABI then 0 else 7
-  | Iconst_symbol _ when !pic_code -> 7
+  | Iconst_symbol _ when !Clflags.pic_code -> 7
   | _ -> 9
 
 let max_register_pressure = function
     Iextcall(_, _) -> if abi = EABI then [| 4; 0; 0 |] else [| 4; 8; 8 |]
   | Ialloc _ -> if abi = EABI then [| 7; 0; 0 |] else [| 7; 8; 8 |]
-  | Iconst_symbol _ when !pic_code -> [| 7; 16; 32 |]
+  | Iconst_symbol _ when !Clflags.pic_code -> [| 7; 16; 32 |]
   | Iintoffloat | Ifloatofint
   | Iload(Single, _) | Istore(Single, _) -> [| 9; 15; 31 |]
   | _ -> [| 9; 16; 32 |]

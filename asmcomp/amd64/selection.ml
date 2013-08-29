@@ -162,7 +162,7 @@ method! select_store addr exp =
       (Ispecific(Istore_int(Nativeint.of_int n, addr)), Ctuple [])
   | Cconst_natpointer n when self#is_immediate_natint n ->
       (Ispecific(Istore_int(n, addr)), Ctuple [])
-  | Cconst_symbol s when not (!pic_code || !Clflags.dlcode) ->
+  | Cconst_symbol s when not (!Clflags.pic_code || !Clflags.dlcode) ->
       (Ispecific(Istore_symbol(s, addr)), Ctuple [])
   | _ ->
       super#select_store addr exp

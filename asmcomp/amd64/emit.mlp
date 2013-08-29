@@ -73,7 +73,7 @@ let emit_jump s =
 let load_symbol_addr s =
   if !Clflags.dlcode && not mingw64
   then `movq	{emit_symbol s}@GOTPCREL(%rip)`
-  else if !pic_code
+  else if !Clflags.pic_code
   then `leaq	{emit_symbol s}(%rip)`
   else `movq	${emit_symbol s}`
 
@@ -557,7 +557,7 @@ let emit_instr fallthrough i =
     | Lop(Ispecific(Istore_int(n, addr))) ->
         `	movq	${emit_nativeint n}, {emit_addressing addr i.arg 0}\n`
     | Lop(Ispecific(Istore_symbol(s, addr))) ->
-        assert (not !pic_code && not !Clflags.dlcode);
+        assert (not !Clflags.pic_code && not !Clflags.dlcode);
         `	movq	${emit_symbol s}, {emit_addressing addr i.arg 0}\n`
     | Lop(Ispecific(Ioffset_loc(n, addr))) ->
         `	addq	${emit_int n}, {emit_addressing addr i.arg 0}\n`

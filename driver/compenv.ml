@@ -249,6 +249,10 @@ let read_OCAMLPARAM ppf position =
             first_objfiles := v :: !first_objfiles
         end
 
+      | "nopic" ->
+        if !native_code then
+          clear "nopic" [ pic_code ] v
+
       | _ ->
         Printf.eprintf
             "Warning: discarding value of variable %S in OCAMLPARAM\n%!"
