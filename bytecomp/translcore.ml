@@ -45,7 +45,8 @@ let comparisons_table = create_hashtable 11 [
       (Pccall{prim_name = "caml_equal"; prim_arity = 2; prim_alloc = true;
               prim_native_name = ""; prim_native_float = false},
        Pintcomp Ceq,
-       Pfloatcomp Ceq,
+       Pccall{prim_name = "caml_equal"; prim_arity = 2; prim_alloc = true;
+              prim_native_name = ""; prim_native_float = false},
        Pccall{prim_name = "caml_string_equal"; prim_arity = 2;
               prim_alloc = false;
               prim_native_name = ""; prim_native_float = false},
@@ -57,7 +58,8 @@ let comparisons_table = create_hashtable 11 [
       (Pccall{prim_name = "caml_notequal"; prim_arity = 2; prim_alloc = true;
               prim_native_name = ""; prim_native_float = false},
        Pintcomp Cneq,
-       Pfloatcomp Cneq,
+       Pccall{prim_name = "caml_notequal"; prim_arity = 2; prim_alloc = true;
+              prim_native_name = ""; prim_native_float = false},
        Pccall{prim_name = "caml_string_notequal"; prim_arity = 2;
               prim_alloc = false; prim_native_name = "";
               prim_native_float = false},
@@ -69,7 +71,8 @@ let comparisons_table = create_hashtable 11 [
       (Pccall{prim_name = "caml_lessthan"; prim_arity = 2; prim_alloc = true;
               prim_native_name = ""; prim_native_float = false},
        Pintcomp Clt,
-       Pfloatcomp Clt,
+       Pccall{prim_name = "caml_lessthan"; prim_arity = 2; prim_alloc = true;
+              prim_native_name = ""; prim_native_float = false},
        Pccall{prim_name = "caml_string_lessthan"; prim_arity = 2;
               prim_alloc = false; prim_native_name = "";
               prim_native_float = false},
@@ -81,7 +84,8 @@ let comparisons_table = create_hashtable 11 [
       (Pccall{prim_name = "caml_greaterthan"; prim_arity = 2; prim_alloc = true;
               prim_native_name = ""; prim_native_float = false},
        Pintcomp Cgt,
-       Pfloatcomp Cgt,
+       Pccall{prim_name = "caml_greaterthan"; prim_arity = 2; prim_alloc = true;
+              prim_native_name = ""; prim_native_float = false},
        Pccall{prim_name = "caml_string_greaterthan"; prim_arity = 2;
               prim_alloc = false; prim_native_name = "";
               prim_native_float = false},
@@ -93,7 +97,8 @@ let comparisons_table = create_hashtable 11 [
       (Pccall{prim_name = "caml_lessequal"; prim_arity = 2; prim_alloc = true;
               prim_native_name = ""; prim_native_float = false},
        Pintcomp Cle,
-       Pfloatcomp Cle,
+       Pccall{prim_name = "caml_lessequal"; prim_arity = 2; prim_alloc = true;
+              prim_native_name = ""; prim_native_float = false},
        Pccall{prim_name = "caml_string_lessequal"; prim_arity = 2;
               prim_alloc = false; prim_native_name = "";
               prim_native_float = false},
@@ -106,7 +111,9 @@ let comparisons_table = create_hashtable 11 [
               prim_alloc = true;
               prim_native_name = ""; prim_native_float = false},
        Pintcomp Cge,
-       Pfloatcomp Cge,
+       Pccall{prim_name = "caml_greaterequal"; prim_arity = 2;
+              prim_alloc = true;
+              prim_native_name = ""; prim_native_float = false},
        Pccall{prim_name = "caml_string_greaterequal"; prim_arity = 2;
               prim_alloc = false; prim_native_name = "";
               prim_native_float = false},
@@ -185,12 +192,25 @@ let primitives_table = create_hashtable 57 [
   "%subfloat", Psubfloat;
   "%mulfloat", Pmulfloat;
   "%divfloat", Pdivfloat;
-  "%eqfloat", Pfloatcomp Ceq;
-  "%noteqfloat", Pfloatcomp Cneq;
-  "%ltfloat", Pfloatcomp Clt;
-  "%lefloat", Pfloatcomp Cle;
-  "%gtfloat", Pfloatcomp Cgt;
-  "%gefloat", Pfloatcomp Cge;
+  "%eqfloat",
+    Pccall{prim_name = "caml_equal"; prim_arity = 2; prim_alloc = true;
+           prim_native_name = ""; prim_native_float = false};
+  "%noteqfloat",
+    Pccall{prim_name = "caml_notequal"; prim_arity = 2; prim_alloc = true;
+           prim_native_name = ""; prim_native_float = false};
+  "%ltfloat",
+    Pccall{prim_name = "caml_lessthan"; prim_arity = 2; prim_alloc = true;
+           prim_native_name = ""; prim_native_float = false};
+  "%lefloat",
+    Pccall{prim_name = "caml_lessequal"; prim_arity = 2; prim_alloc = true;
+           prim_native_name = ""; prim_native_float = false};
+  "%gtfloat",
+    Pccall{prim_name = "caml_greaterthan"; prim_arity = 2; prim_alloc = true;
+           prim_native_name = ""; prim_native_float = false};
+  "%gefloat",
+    Pccall{prim_name = "caml_greaterequal"; prim_arity = 2;
+           prim_alloc = true;
+           prim_native_name = ""; prim_native_float = false};
   "%string_length", Pstringlength;
   "%string_safe_get", Pstringrefs;
   "%string_safe_set", Pstringsets;

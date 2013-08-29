@@ -93,7 +93,15 @@ let emit_bytes_directive directive s =
    literals as 32- or 64-bit integers. *)
 
 let emit_float64_directive directive f =
-  let x = Int64.bits_of_float (float_of_string f) in
+  let fs = float_of_string f in
+  let x  =
+    if (!Clflags.fixedpt > 0)
+    then
+      let fixedpt_one = float_of_int (1 lsl !Clflags.fixedpt) in
+      let r = fs *. fixedpt_one in
+      Int64.of_float (if (fs >= 0.0) then (r +. 0.5) else (r -. 0.5))
+    else Int64.bits_of_float fs
+  in
   emit_printf "\t%s\t0x%Lx\n" directive x
 
 let emit_float64_split_directive directive f =

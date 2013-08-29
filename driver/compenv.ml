@@ -253,6 +253,8 @@ let read_OCAMLPARAM ppf position =
         if !native_code then
           clear "nopic" [ pic_code ] v
 
+      | "fixedpt" -> fixedpt := int_of_string v
+
       | _ ->
         Printf.eprintf
             "Warning: discarding value of variable %S in OCAMLPARAM\n%!"
