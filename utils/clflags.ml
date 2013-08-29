@@ -99,7 +99,8 @@ let std_include_dir () =
 
 let shared = ref false (* -shared *)
 let dlcode = ref true (* not -nodynlink *)
-let pic_code = ref true (* -fPIC (amd64 and arm only) *)
+let pic_code = ref (String.compare "amd64" Config.architecture == 0)
+  (* -fPIC (only true by default on amd64) *)
 
 let runtime_variant = ref "";;      (* -runtime-variant *)
 
